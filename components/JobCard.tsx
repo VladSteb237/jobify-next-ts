@@ -1,12 +1,6 @@
 import { JobType } from "@/utils/types";
 import React from "react";
-import {
-  MapPin,
-  Briefcase,
-  CalendarDays,
-  RadioTower,
-  Delete,
-} from "lucide-react";
+import { MapPin, Briefcase, CalendarDays, RadioTower } from "lucide-react";
 import {
   Card,
   CardContent,
