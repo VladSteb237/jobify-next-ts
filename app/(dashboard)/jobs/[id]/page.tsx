@@ -10,7 +10,7 @@ import React from "react";
 const SingleJob = async ({
   params,
 }: {
-  params: Promise<{ id: string }> | { id: string };
+  params: Promise<{ id: string }> | any;
 }) => {
   const { id } = await params;
   const queryClient = new QueryClient();
