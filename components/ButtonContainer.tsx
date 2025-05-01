@@ -27,7 +27,7 @@ const ButtonContainer = (props: ButtonContainerProps) => {
       jobStatus: searchParams.get("jobStatus") || "",
       page: page.toString(),
     };
-    let params = new URLSearchParams(defaultParams);
+    const params = new URLSearchParams(defaultParams);
     router.push(`${pathname}?${params.toString()}`);
   };
   const addPageButton = (props: ButtonProps) => {
