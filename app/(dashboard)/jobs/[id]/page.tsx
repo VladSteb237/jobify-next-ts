@@ -8,7 +8,7 @@ import {
 import React from "react";
 
 const SingleJob = async ({ params }: { params: { id: string } }) => {
-  const { id } = await params;
+  const { id } = params;
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({

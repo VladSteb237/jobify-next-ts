@@ -21,7 +21,7 @@ export default function Home() {
             quinoa lo-fi tote bag adaptogen everyday carry meggings +1 brunch
             narwhal.
           </p>
-          <Button asChild className="mt-4">
+          <Button asChild className="mt-4 dark:text-white">
             <Link href={"/add-job"}>Get Started</Link>
           </Button>
         </div>
