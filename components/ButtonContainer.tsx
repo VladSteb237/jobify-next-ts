@@ -19,7 +19,7 @@ const ButtonContainer = (props: ButtonContainerProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const pageButtons = Array.from({ length: totalPages }, (_, i) => i + 1);
+  //const pageButtons = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   const handlePageChange = (page: number) => {
     const defaultParams = {
