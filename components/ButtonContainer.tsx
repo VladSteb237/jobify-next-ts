@@ -37,6 +37,7 @@ const ButtonContainer = (props: ButtonContainerProps) => {
         key={page}
         size={"icon"}
         variant={activeClass ? "default" : "outline"}
+        className="cursor-pointer"
         onClick={() => handlePageChange(page)}>
         {page}
       </Button>
@@ -102,7 +103,7 @@ const ButtonContainer = (props: ButtonContainerProps) => {
       {/* prev button */}
       <Button
         variant={"outline"}
-        className="flex items-center gap-x-2"
+        className="flex items-center gap-x-2 cursor-pointer"
         onClick={() => {
           let prevPage = currentPage - 1;
           if (prevPage < 1) {
@@ -116,7 +117,7 @@ const ButtonContainer = (props: ButtonContainerProps) => {
       {renderPageButtons()}
       {/* next button */}
       <Button
-        className="flex items-center gap-x-2"
+        className="flex items-center gap-x-2 cursor-pointer"
         variant={"outline"}
         onClick={() => {
           let nextPage = currentPage + 1;
