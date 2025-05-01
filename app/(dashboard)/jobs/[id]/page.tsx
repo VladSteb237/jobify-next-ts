@@ -7,7 +7,11 @@ import {
 } from "@tanstack/react-query";
 import React from "react";
 
-const SingleJob = async ({ params }: { params: { id: string } }) => {
+const SingleJob = async ({
+  params,
+}: {
+  params: Promise<{ id: string }> | { id: string };
+}) => {
   const { id } = await params;
   const queryClient = new QueryClient();
 
