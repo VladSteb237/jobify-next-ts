@@ -3232,6 +3232,4 @@ function ButtonContainer({ currentPage, totalPages }: ButtonContainerProps) {
 export default ButtonContainer;
 ```
 
-"version": "0.1.0",
-
 ## THE END

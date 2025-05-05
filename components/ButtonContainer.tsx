@@ -50,7 +50,7 @@ const ButtonContainer = (props: ButtonContainerProps) => {
       addPageButton({ page: 1, activeClass: currentPage === 1 })
     );
     // dots
-    if (currentPage > 3) {
+    if (currentPage > 2) {
       pageButtons.push(
         <Button size={"icon"} variant={"outline"} key={"dots-1"}>
           ...
@@ -106,9 +106,7 @@ const ButtonContainer = (props: ButtonContainerProps) => {
         className="flex items-center gap-x-2 cursor-pointer"
         onClick={() => {
           let prevPage = currentPage - 1;
-          if (prevPage < 1) {
-            prevPage = totalPages;
-          }
+          if (prevPage < 1) prevPage = totalPages;
           handlePageChange(prevPage);
         }}>
         <ChevronLeft />
