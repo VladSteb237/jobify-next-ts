@@ -171,7 +171,7 @@ export const getStatsAction = async (): Promise<{
   interview: number;
   declined: number;
 }> => {
-  // just to show Skeleton
+  // just to show Skeleton file
   await new Promise((resolve) => setTimeout(resolve, 2000));
   const userId = await authenticateAndRedirect();
   try {
