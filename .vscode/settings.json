@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["Jobify", "sonner"]
+  "cSpell.words": ["Jobify", "sonner"],
+  "prisma.pinToPrisma6": false
 }

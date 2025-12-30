@@ -1,9 +1,10 @@
 "use server";
-import prisma from "./db";
+
 import { auth } from "@clerk/nextjs/server";
 import { JobType, CreateAndEditJobType, createAndEditJobSchema } from "./types";
 import { redirect } from "next/navigation";
 import { Prisma } from "@prisma/client";
+import { prisma } from "@/utils/db";
 import dayjs from "dayjs";
 
 async function authenticateAndRedirect(): Promise<string> {
@@ -42,18 +43,22 @@ type GetAllJobsActionTypes = {
   limit?: number;
 };
 
-export const getAllJobsAction = async (
-  props: GetAllJobsActionTypes
-): Promise<{
+export async function getAllJobsAction({
+  search,
+  jobStatus,
+  page = 1,
+  limit = 10,
+}: GetAllJobsActionTypes): Promise<{
   jobs: JobType[];
   count: number;
   page: number;
   totalPages: number;
-}> => {
-  const { search, jobStatus, page = 1, limit = 10 } = props;
+}> {
   const userId = await authenticateAndRedirect();
+
   try {
     let whereClause: Prisma.JobWhereInput = {
+      // Fix: Use Prisma.JobWhereInput
       clerkId: userId,
     };
     if (search) {
@@ -63,13 +68,11 @@ export const getAllJobsAction = async (
           {
             position: {
               contains: search,
-              mode: "insensitive",
             },
           },
           {
             company: {
               contains: search,
-              mode: "insensitive",
             },
           },
         ],
@@ -82,26 +85,19 @@ export const getAllJobsAction = async (
       };
     }
 
-    const skip = (page - 1) * limit;
-
     const jobs: JobType[] = await prisma.job.findMany({
       where: whereClause,
-      skip,
-      take: limit,
       orderBy: {
         createdAt: "desc",
       },
     });
-    const count = await prisma.job.count({
-      where: whereClause,
-    });
-    const totalPages = Math.ceil(count / limit);
-    return { jobs, count, page, totalPages };
+
+    return { jobs, count: 0, page: 1, totalPages: 0 };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return { jobs: [], count: 0, page: 1, totalPages: 0 };
   }
-};
+}
 
 export const deleteJobAction = async (id: string): Promise<JobType | null> => {
   await new Promise((resolve) => setTimeout(resolve, 3000));
