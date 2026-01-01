@@ -15,9 +15,11 @@ import Link from "next/link";
 import JobInfo from "./JobInfo";
 import { Badge } from "./ui/badge";
 import DeleteJobBtn from "./DeleteJobBtn";
+import { format } from "date-fns";
 
 const JobCard = ({ job }: { job: JobType }) => {
-  const date = new Date(job.createdAt).toLocaleDateString();
+  // Преобразуем дату в стабильный формат на сервере и клиенте
+  const formattedDate = format(new Date(job.createdAt), "dd.MM.yyyy");
 
   return (
     <Card className="bg-muted">
@@ -29,7 +31,7 @@ const JobCard = ({ job }: { job: JobType }) => {
       <CardContent className="mt-4 grid grid-cols-2 gap-4">
         <JobInfo icon={<Briefcase />} text={job.mode} />
         <JobInfo icon={<MapPin />} text={job.location} />
-        <JobInfo icon={<CalendarDays />} text={date} />
+        <JobInfo icon={<CalendarDays />} text={formattedDate} />
         <Badge className="w-32 justify-center rounded-xl">
           <JobInfo
             icon={<RadioTower className="w-4 h-4 dark:text-white" />}

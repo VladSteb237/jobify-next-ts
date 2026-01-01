@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main>
       <header className="max-w-6xl mx-auto px-4 sm:px-8 py-6">
-        <Image src={Logo} alt="logo" />
+        <Image src={Logo} alt="logo" priority />
       </header>
       <section className="max-w-6xl mx-auto px-4 sm:px-8 h-screen -mt-20 grid items-center lg:grid-cols-2">
         <div>
@@ -25,7 +25,12 @@ export default function Home() {
             <Link href={"/add-job"}>Get Started</Link>
           </Button>
         </div>
-        <Image src={LandingImg} alt="landing" className="hidden lg:block" />
+        <Image
+          src={LandingImg}
+          alt="landing"
+          className="hidden lg:block"
+          priority
+        />
       </section>
     </main>
   );

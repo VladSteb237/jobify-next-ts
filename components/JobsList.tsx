@@ -22,6 +22,8 @@ const JobsList = () => {
   const page = data?.page || 1;
   const totalPages = data?.totalPages || 0;
 
+  //console.log("DATA FROM QUERY:", data);
+
   if (isPending) {
     return <h2 className="text-xl">Please Wait...</h2>;
   }
