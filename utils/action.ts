@@ -21,11 +21,28 @@ export const createJobAction = async (
 ): Promise<JobType | null> => {
   await new Promise((resolve) => setTimeout(resolve, 3000));
   const userId = await authenticateAndRedirect();
+  const realJobsCount = await prisma.job.count({
+    where: {
+      clerkId: userId,
+      isDemo: false,
+    },
+  });
+
+  // 🔥 если это первая реальная job — чистим demo
+  if (realJobsCount === 0) {
+    await prisma.job.deleteMany({
+      where: {
+        clerkId: userId,
+        isDemo: true,
+      },
+    });
+  }
   try {
     createAndEditJobSchema.parse(values);
     const job: JobType = await prisma.job.create({
       data: {
         ...values,
+        isDemo: false,
         clerkId: userId,
       },
     });
@@ -171,7 +188,7 @@ export const getStatsAction = async (): Promise<{
   declined: number;
 }> => {
   // just to show Skeleton file
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  //await new Promise((resolve) => setTimeout(resolve, 2000));
   const userId = await authenticateAndRedirect();
   try {
     const stats = await prisma.job.groupBy({
@@ -236,3 +253,16 @@ export const getChartsDataAction = async (): Promise<
     redirect("/jobs");
   }
 };
+
+export async function hasDemoJobsAction() {
+  const userId = await authenticateAndRedirect();
+
+  const count = await prisma.job.count({
+    where: {
+      clerkId: userId,
+      isDemo: true,
+    },
+  });
+
+  return count > 0;
+}

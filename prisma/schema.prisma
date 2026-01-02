@@ -23,4 +23,5 @@ model Job {
   location  String
   status      String
   mode     String
+  isDemo    Boolean  @default(false)
 }
