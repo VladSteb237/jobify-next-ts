@@ -1,5 +1,4 @@
 "use server";
-
 import { auth } from "@clerk/nextjs/server";
 import { JobType, CreateAndEditJobType, createAndEditJobSchema } from "./types";
 import { redirect } from "next/navigation";
@@ -17,7 +16,7 @@ async function authenticateAndRedirect(): Promise<string> {
 }
 
 export const createJobAction = async (
-  values: CreateAndEditJobType
+  values: CreateAndEditJobType,
 ): Promise<JobType | null> => {
   await new Promise((resolve) => setTimeout(resolve, 3000));
   const userId = await authenticateAndRedirect();
@@ -137,7 +136,7 @@ export const deleteJobAction = async (id: string): Promise<JobType | null> => {
 };
 
 export const getSingleJobAction = async (
-  id: string
+  id: string,
 ): Promise<JobType | null> => {
   //await new Promise((resolve) => setTimeout(resolve, 2000));
   let job: JobType | null = null;
@@ -161,7 +160,7 @@ export const getSingleJobAction = async (
 
 export const updateJobAction = async (
   id: string,
-  values: CreateAndEditJobType
+  values: CreateAndEditJobType,
 ): Promise<JobType | null> => {
   //await new Promise((resolve) => setTimeout(resolve, 3000));
   const userId = await authenticateAndRedirect();
@@ -201,10 +200,13 @@ export const getStatsAction = async (): Promise<{
       },
     });
 
-    const statsObject = stats.reduce((acc, curr) => {
-      acc[curr.status] = curr._count.status;
-      return acc;
-    }, {} as Record<string, number>);
+    const statsObject = stats.reduce(
+      (acc, curr) => {
+        acc[curr.status] = curr._count.status;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
 
     const defaultStats = {
       pending: 0,
@@ -238,16 +240,19 @@ export const getChartsDataAction = async (): Promise<
       },
     });
 
-    let applicationsPerMonth = jobs.reduce((acc, curr) => {
-      const date = dayjs(curr.createdAt).format("YYYY-MM");
-      const existingEntry = acc.find((entry) => entry.date === date);
-      if (existingEntry) {
-        existingEntry.count++;
-      } else {
-        acc.push({ date, count: 1 });
-      }
-      return acc;
-    }, [] as Array<{ date: string; count: number }>);
+    let applicationsPerMonth = jobs.reduce(
+      (acc, curr) => {
+        const date = dayjs(curr.createdAt).format("YYYY-MM");
+        const existingEntry = acc.find((entry) => entry.date === date);
+        if (existingEntry) {
+          existingEntry.count++;
+        } else {
+          acc.push({ date, count: 1 });
+        }
+        return acc;
+      },
+      [] as Array<{ date: string; count: number }>,
+    );
     return applicationsPerMonth;
   } catch (error) {
     redirect("/jobs");

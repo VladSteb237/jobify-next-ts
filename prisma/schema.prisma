@@ -20,7 +20,7 @@ datasource db {
 }
 
 model Job {
-  id        String      @id @default(uuid())
+  id        String   @id @default(uuid())
   clerkId   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
