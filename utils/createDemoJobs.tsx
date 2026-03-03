@@ -1,4 +1,4 @@
-import { prisma } from "@/utils/db";
+import prisma from "@/utils/db";
 import { demoJobs } from "@/prisma/demo-jobs";
 
 export async function createDemoJobs(clerkId: string) {

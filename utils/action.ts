@@ -2,9 +2,10 @@
 import { auth } from "@clerk/nextjs/server";
 import { JobType, CreateAndEditJobType, createAndEditJobSchema } from "./types";
 import { redirect } from "next/navigation";
-import { Prisma } from "@prisma/client";
-import { prisma } from "@/utils/db";
+import { Prisma } from "../app/generated/prisma/client";
+import prisma from "@/utils/db";
 import dayjs from "dayjs";
+import { JobStatus } from "./types"; // путь к твоему types.ts
 
 async function authenticateAndRedirect(): Promise<string> {
   const { userId } = await auth();
@@ -18,7 +19,7 @@ async function authenticateAndRedirect(): Promise<string> {
 export const createJobAction = async (
   values: CreateAndEditJobType,
 ): Promise<JobType | null> => {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  //await new Promise((resolve) => setTimeout(resolve, 3000));
   const userId = await authenticateAndRedirect();
   const realJobsCount = await prisma.job.count({
     where: {
@@ -200,12 +201,12 @@ export const getStatsAction = async (): Promise<{
       },
     });
 
-    const statsObject = stats.reduce(
+    const statsObject = stats.reduce<Partial<Record<JobStatus, number>>>(
       (acc, curr) => {
-        acc[curr.status] = curr._count.status;
+        acc[curr.status as JobStatus] = curr._count.status;
         return acc;
       },
-      {} as Record<string, number>,
+      {} as Partial<Record<JobStatus, number>>,
     );
 
     const defaultStats = {
@@ -241,7 +242,12 @@ export const getChartsDataAction = async (): Promise<
     });
 
     let applicationsPerMonth = jobs.reduce(
-      (acc, curr) => {
+      (
+        acc: { date: string; count: number }[],
+        curr: {
+          createdAt: string | number | dayjs.Dayjs | Date | null | undefined;
+        },
+      ) => {
         const date = dayjs(curr.createdAt).format("YYYY-MM");
         const existingEntry = acc.find((entry) => entry.date === date);
         if (existingEntry) {

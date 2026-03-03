@@ -15,15 +15,16 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { createJobAction } from "@/utils/action";
+import { faker } from "@faker-js/faker";
 
 const CreateJobForm = () => {
   // 1. Define your form.
   const form = useForm<CreateAndEditJobType>({
     resolver: zodResolver(createAndEditJobSchema),
     defaultValues: {
-      position: "",
-      company: "",
-      location: "",
+      position: faker.person.jobTitle(),
+      company: faker.company.name(),
+      location: faker.location.city(),
       status: JobStatus.Pending,
       mode: JobMode.FullTime,
     },

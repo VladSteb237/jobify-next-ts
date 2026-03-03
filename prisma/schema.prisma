@@ -4,20 +4,19 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-// generator client {
-//   provider = "prisma-client-js"
-// }
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+datasource db {
+  provider = "postgresql"
+}
 
 // datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
+//   provider  = "postgresql"
+//   url       = env("DATABASE_URL") // pooler → Next.js
+//   directUrl = env("DIRECT_URL")   // direct → Prisma CLI
 // }
-
-datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL") // pooler → Next.js
-  directUrl = env("DIRECT_URL")   // direct → Prisma CLI
-}
 
 model Job {
   id        String   @id @default(uuid())
